@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config();
 const app = express();
@@ -41,8 +41,15 @@ async function run() {
         });
 
         // tourist place related data
-        app.get('/tourist-spots', async(req, res) => {
+        app.get('/tourist-spots', async (req, res) => {
             const result = await placesCollection.find().toArray();
+            res.send(result);
+        });
+
+        app.get('/tourist-spot/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await placesCollection.findOne(query);
             res.send(result);
         });
 
