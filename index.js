@@ -28,17 +28,23 @@ async function run() {
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
 
-        // const placesCollection = client.db("Jj-tourism").collection("places");
+        const placesCollection = client.db("Jj-tourism").collection("places");
         const userCollection = client.db("Jj-tourism").collection("users");
 
         // users related apis
-        app.post('/user', async(req, res) => {
+        app.post('/user', async (req, res) => {
             const user = req.body;
-            console.log(user);
+            // console.log(user);
             const result = await userCollection.insertOne(user);
             res.send(result);
         });
 
+        // tourist place related data
+        app.post('/add-tourist-spot', async (req, res) => {
+            const tourist_spot = req.body;
+            const result = await placesCollection.insertOne(tourist_spot);
+            res.send(result);
+        });
 
 
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
