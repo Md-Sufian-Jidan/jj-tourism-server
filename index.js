@@ -28,8 +28,9 @@ async function run() {
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
 
-        const placesCollection = client.db("Jj-tourism").collection("places");
+        const userAddCollection = client.db("Jj-tourism").collection("user-add-tourist");
         const userCollection = client.db("Jj-tourism").collection("users");
+        const placesCollection = client.db("Jj-tourism").collection("places");
 
         // users related apis
         app.post('/user', async (req, res) => {
@@ -40,6 +41,11 @@ async function run() {
         });
 
         // tourist place related data
+        app.get('/tourist-spots', async(req, res) => {
+            const result = await placesCollection.find().toArray();
+            res.send(result);
+        });
+
         app.post('/add-tourist-spot', async (req, res) => {
             const tourist_spot = req.body;
             const result = await placesCollection.insertOne(tourist_spot);
