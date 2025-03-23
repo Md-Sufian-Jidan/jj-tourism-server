@@ -28,7 +28,7 @@ async function run() {
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
 
-        const userAddCollection = client.db("Jj-tourism").collection("user-add-tourist");
+        const addTouristPlaceCollection = client.db("Jj-tourism").collection("add-tourist-place");
         const userCollection = client.db("Jj-tourism").collection("users");
         const placesCollection = client.db("Jj-tourism").collection("places");
 
@@ -55,7 +55,27 @@ async function run() {
 
         app.post('/add-tourist-spot', async (req, res) => {
             const tourist_spot = req.body;
-            const result = await placesCollection.insertOne(tourist_spot);
+            const result = await addTouristPlaceCollection.insertOne(tourist_spot);
+            res.send(result);
+        });
+
+        app.get('/all-tourist-place', async (req, res) => {
+            const result = await addTouristPlaceCollection.find().toArray();
+            res.send(result);
+        });
+
+        app.get('/tourist-place/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await addTouristPlaceCollection.findOne(query);
+            res.send(result);
+        });
+
+        // my list related api
+        app.get('/my-list/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const result = await addTouristPlaceCollection.find(query).toArray();
             res.send(result);
         });
 
