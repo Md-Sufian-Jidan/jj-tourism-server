@@ -100,9 +100,14 @@ async function run() {
             };
             const result = await addTouristPlaceCollection.updateOne(query, update);
             res.send(result);
-            console.log(query, update, result);
         });
 
+        app.delete('/tourist-delete/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await addTouristPlaceCollection.deleteOne(query);
+            res.send(result);
+        });
 
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
