@@ -79,6 +79,30 @@ async function run() {
             res.send(result);
         });
 
+        app.patch('/update-tourist/:id', async (req, res) => {
+            const updateTourist = req?.body;
+            const id = req?.params?.id;
+            const query = { _id: new ObjectId(id) };
+            const update = {
+                $set: {
+                    name: updateTourist?.name,
+                    email: updateTourist?.email,
+                    Country: updateTourist?.Country,
+                    average_cost: updateTourist?.average_cost,
+                    image: updateTourist?.image,
+                    location: updateTourist?.location,
+                    seasonality: updateTourist?.seasonality,
+                    short_description: updateTourist?.short_description,
+                    totalVisitorsPerYear: updateTourist?.totalVisitorsPerYear,
+                    tourists_spot_name: updateTourist?.tourists_spot_name,
+                    travel_time: updateTourist?.travel_time,
+                },
+            };
+            const result = await addTouristPlaceCollection.updateOne(query, update);
+            res.send(result);
+            console.log(query, update, result);
+        });
+
 
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
