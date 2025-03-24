@@ -28,9 +28,10 @@ async function run() {
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
 
-        const addTouristPlaceCollection = client.db("Jj-tourism").collection("add-tourist-place");
         const userCollection = client.db("Jj-tourism").collection("users");
+        const addTouristPlaceCollection = client.db("Jj-tourism").collection("add-tourist-place");
         const placesCollection = client.db("Jj-tourism").collection("places");
+        const countriesCollection = client.db("Jj-tourism").collection("Countries");
 
         // users related apis
         app.post('/user', async (req, res) => {
@@ -106,6 +107,12 @@ async function run() {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
             const result = await addTouristPlaceCollection.deleteOne(query);
+            res.send(result);
+        });
+
+        // countries section apis
+        app.get('/countries', async (req, res) => {
+            const result = await countriesCollection.find().toArray();
             res.send(result);
         });
 
