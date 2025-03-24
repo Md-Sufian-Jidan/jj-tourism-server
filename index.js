@@ -116,6 +116,15 @@ async function run() {
             res.send(result);
         });
 
+        app.get('/country/:name', async (req, res) => {
+            const country_name = req.params.name;
+            const query = { Country: country_name };
+            const result1 = await addTouristPlaceCollection?.find(query).toArray();
+            res.send(result1);
+            // const result2 = await placesCollection?.find(query).toArray();
+            // res.send({result1, result2});
+        });
+
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
