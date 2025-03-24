@@ -130,6 +130,22 @@ async function run() {
             res.send(result);
         });
 
+        // sort api
+        app.get('/sort/:order', async (req, res) => {
+            const order = req.params.order;
+            console.log(order);
+            if (order.toLowerCase() === 'ascending') {
+                const result = await addTouristPlaceCollection.find().sort({ average_cost: 1 }).toArray();
+                console.log(result);
+                res.send(result);
+            }
+            else {
+                const result = await addTouristPlaceCollection.find().sort({ average_cost: -1 }).toArray();
+                console.log(result);
+                res.send(result);
+            }
+        });
+
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
