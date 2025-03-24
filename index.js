@@ -11,6 +11,7 @@ app.use(cors({
         'http://localhost:5173',
         'http://localhost:5174',
         'https://jj-tourism-client.vercel.app',
+        'https://jj-tourism-client.vercel.app',
     ],
     credentials: true
 }));
