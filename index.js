@@ -6,7 +6,14 @@ const app = express();
 const port = process.env.port || 5000;
 
 //middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'https://jj-tourism-client.vercel.app',
+    ],
+    credentials: true
+}));
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qvjjrvn.mongodb.net/?appName=Cluster0`;
@@ -119,10 +126,8 @@ async function run() {
         app.get('/country/:name', async (req, res) => {
             const country_name = req.params.name;
             const query = { Country: country_name };
-            const result1 = await addTouristPlaceCollection?.find(query).toArray();
-            res.send(result1);
-            // const result2 = await placesCollection?.find(query).toArray();
-            // res.send({result1, result2});
+            const result = await addTouristPlaceCollection?.find(query).toArray();
+            res.send(result);
         });
 
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
